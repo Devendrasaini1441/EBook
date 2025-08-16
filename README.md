@@ -93,5 +93,32 @@ We will send you an email to choose a Real-World project. If you face any diffic
 * Successful implementation, deploymentand CI/CD pipeline.
 * Problem-solving skills and the ability to go beyond basic requirements.
 ## 
+# Project overview
 The app can be accessed at http://3.27.168.57:3000
 If the Ip changes then its should be changed here too
+## Ebook Reader Project
+Purpose: A full-stack web application for managing and reading digital books, enabling users to browse, manage, and track reading progress.
+# Core Features:
+Create, read, update, and delete books and bookmarks.
+Secure user authentication using JWT for protected access.
+Bookmark tracking to save and manage reading progress.
+Responsive React-based UI for seamless book browsing.
+
+# Technology Stack:
+Backend: Node.js with Express, handling RESTful API requests.
+Frontend: React for an interactive user interface.
+Database: MongoDB (mongodb://localhost:27017/Ebook) for storing books and bookmarks.
+Testing: Mocha, Chai, and Sinon for robust backend testing.
+Deployment: PM2 for managing backend (server.js) and frontend (build directory) processes.
+
+# CI/CD Pipeline:
+GitHub Actions automates testing and deployment on a self-hosted Ubuntu server (ip-172-31-101-240).
+Resolves dependency issues and ensures production-ready builds.
+Challenges Overcome:
+Fixed frontend dependency conflicts with react-scripts (e.g., @babel/plugin-proposal-private-property-in-object).
+Addressed vulnerabilities in packages like svgo using npm audit fix.
+Optimized CI/CD workflow to handle caniuse-lite updates and build failures.
+## Future Enhancements:
+Add offline reading and real-time collaboration features.
+Implement advanced search and user personalization.
+Migrate to Vite for faster frontend builds.
