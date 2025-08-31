@@ -38,13 +38,13 @@ jobs:
 
       - name: Install Backend Dependencies
         working-directory: ./backend
-        run: npm ci
+        run: yarn install
 
       - name: Install Frontend Dependencies
         working-directory: ./frontend
         run: |
-          npm ci
-          npm audit fix
+            rm -f package-lock.json
+            yarn install
 
       - name: Update Browserslist Database
         working-directory: ./frontend
