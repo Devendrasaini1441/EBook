@@ -19,8 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
       - name: Install PM2
         run: npm install -g pm2
@@ -46,7 +44,6 @@ jobs:
         working-directory: ./frontend
         run: |
           npm ci
-          npm install --save-dev @babel/plugin-proposal-private-property-in-object
           npm audit fix
 
       - name: Update Browserslist Database
