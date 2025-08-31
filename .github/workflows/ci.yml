@@ -8,15 +8,12 @@ on:
 jobs:
   test-and-deploy:
     name: Test and Deploy
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: production
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
-      - name: Fix Permissions
-        run: sudo chown -R $USER:$USER /home/ubuntu/actions-runner/_work/Ebook
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -24,6 +21,9 @@ jobs:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
+
+      - name: Install PM2
+        run: npm install -g pm2
 
       - name: Print Environment Secrets
         env:
