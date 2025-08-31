@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: 'npm'
+          cache: 'npm ci'
           cache-dependency-path: '**/package-lock.json'
 
       - name: Install PM2
