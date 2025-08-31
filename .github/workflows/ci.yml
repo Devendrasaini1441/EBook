@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: 'npm ci'
+          cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
       - name: Install PM2
@@ -40,12 +40,12 @@ jobs:
 
       - name: Install Backend Dependencies
         working-directory: ./backend
-        run: npm install
+        run: npm ci
 
       - name: Install Frontend Dependencies
         working-directory: ./frontend
         run: |
-          npm install
+          npm ci
           npm install --save-dev @babel/plugin-proposal-private-property-in-object
           npm audit fix
 
