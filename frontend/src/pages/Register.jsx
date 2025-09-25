@@ -1,9 +1,17 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../axiosConfig';
+import { useNavigate, Link } from 'react-router-dom';
+import axiosInstance from '../api/axiosConfig';
 
 const Register = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    university: '',
+    address: '',
+    role: 'reader',
+  });
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -13,57 +21,114 @@ const Register = () => {
       alert('Registration successful. Please log in.');
       navigate('/login');
     } catch (error) {
-      alert('Registration failed. Please try again.');
+      console.error("Registration error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || 'Registration failed. Try again.');
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20">
-      <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded">
-        <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-            Full Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            placeholder="Enter your full name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full p-2 border rounded"
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8">
+        <div className="flex flex-col items-center mb-6">
+          <div className="bg-blue-100 p-4 rounded-full mb-2">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/9125/9125507.png"
+              alt="E-Book Logo"
+              className="w-12 h-12"
+            />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-800">Create an Account</h1>
+          <p className="text-gray-500 text-sm text-center">
+            Join now and start reading your favorite books
+          </p>
         </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email Address
-          </label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
-          Register
-        </button>
-      </form>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Full Name</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              placeholder="Your full name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Email</label>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              placeholder="you@example.com"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Password</label>
+            <input
+              type="password"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              placeholder="Enter your password"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">University</label>
+            <input
+              type="text"
+              value={formData.university}
+              onChange={(e) => setFormData({ ...formData, university: e.target.value })}
+              placeholder="Your university"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Address</label>
+            <input
+              type="text"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              placeholder="Your address"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Role</label>
+            <select
+              value={formData.role}
+              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="reader">Reader</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-3 rounded-lg font-medium hover:bg-blue-700 transition"
+          >
+            Register
+          </button>
+        </form>
+
+        <p className="text-gray-500 text-sm mt-4 text-center">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue-600 hover:underline">
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
