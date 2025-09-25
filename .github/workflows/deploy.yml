@@ -1,0 +1,64 @@
+name: EbookApp
+
+on:
+  push:
+    branches:
+      - main   # trigger on main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 21.1.0   # you asked for Node v21.1.0
+
+    # Install frontend dependencies and build
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+        npm run build
+
+    # Install backend dependencies
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        npm install
+
+    # Copy project files to EC2
+    - name: Copy files to EC2
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        source: "."
+        target: "/home/ubuntu/Ebook"
+
+    # SSH into EC2 and deploy
+    - name: SSH to EC2 and Deploy
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          cd /home/ubuntu/Ebook
+          
+          # Backend setup
+          cd backend
+          npm install
+
+          # Stop old app if running
+          pm2 stop EbookApp || true
+          
+          # Start new app (backend entry point)
+          pm2 start server.js --name "EbookApp"
+          pm2 save
+          pm2 status
