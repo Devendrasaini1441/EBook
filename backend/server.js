@@ -1,7 +1,15 @@
-const app = require('./app');
-const PORT = process.env.PORT || 5000;
-const HOST = '0.0.0.0'; // allow public access
+const express = require('express');
+const path = require('path');
+const app = express();
 
-app.listen(PORT, HOST, () => {
-  console.log(`Server listening on http://${HOST}:${PORT}`);
+// Serve React frontend
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
