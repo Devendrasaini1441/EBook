@@ -22,16 +22,19 @@ NotificationService.subscribe('book:published', (payload) => {
 });
 
 app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true, // only if you use cookies
+  origin: ['http://localhost:3000', 'http://98.81.192.179'],
+  credentials: true,
 }));
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
 app.use('/api/features', featureRoutes);
 
+
+app.get('/', (req, res) => {
+  res.send('Ebook API is running...');
+});
 // Error handler as last middleware
 app.use(errorHandler);
 
